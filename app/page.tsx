@@ -1,5 +1,6 @@
 "use client";
 
+import emailjs from "@emailjs/browser";
 import { useState } from "react";
 import Link from "next/link";
 import {
@@ -56,13 +57,16 @@ export default function Home() {
     }
 
     // Send Email
-    await fetch("/api/send-email", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    await emailjs.send(
+      "service_be5y96a",
+      "template_afa7a0q",
+      {
+        name: form.name,
+        email: form.email,
+        requirement: form.requirement,
       },
-      body: JSON.stringify(form),
-    });
+      "pKj5-f2EH5pf6tTSp"
+    );
 
     alert("Lead Submitted & Email Sent Successfully!");
 

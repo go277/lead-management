@@ -197,84 +197,55 @@ export default async function Dashboard() {
                   <th className="py-3.5 pl-4 pr-6 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
-                {leads && leads.length > 0 ? (
-                  leads.map((lead: any, index: number) => {
-                    
-                    // Generate Initials
-                    const initials = lead.name
-                      ? lead.name.split(" ").map((n: string) => n).join("").substring(0, 2).toUpperCase()
-                      : "U";
+              <tbody>
+                {leads?.map((lead: any) => (
+                  <tr
+                    key={lead.id}
+                    className="border-b border-slate-100 hover:bg-slate-50 transition"
+                  >
+                    <td className="px-6 py-5">
+                      <div className="flex items-center gap-3">
+                        <div className="h-10 w-10 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold">
+                          {lead.name?.charAt(0).toUpperCase()}
+                        </div>
 
-                    // Alternate Avatar Colors for UI richness
-                    const badgeColors = [
-                      "bg-rose-100 text-rose-700",
-                      "bg-emerald-100 text-emerald-700",
-                      "bg-purple-100 text-purple-700",
-                      "bg-amber-100 text-amber-700",
-                      "bg-blue-100 text-blue-700"
-                    ];
-                    const badgeColor = badgeColors[index % badgeColors.length];
+                        <div>
+                          <p className="font-semibold text-slate-900">
+                            {lead.name}
+                          </p>
+                        </div>
+                      </div>
+                    </td>
 
-                    return (
-                      <tr key={lead.id} className="hover:bg-slate-50/80 transition-colors group">
-                        
-                        {/* Name + Avatar */}
-                        <td className="py-3.5 pl-6 pr-4 font-semibold text-slate-800 whitespace-nowrap">
-                          <div className="flex items-center gap-3">
-                            <span className={`h-7 w-7 rounded-full flex items-center justify-center text-[10px] font-bold ${badgeColor}`}>
-                              {initials}
-                            </span>
-                            <span>{lead.name}</span>
-                          </div>
-                        </td>
+                    <td className="px-6 py-5">
+                      {lead.email}
+                    </td>
 
-                        {/* Email */}
-                        <td className="py-3.5 px-4 text-slate-600">{lead.email}</td>
+                    <td className="px-6 py-5">
+                      {lead.phone}
+                    </td>
 
-                        {/* Phone */}
-                        <td className="py-3.5 px-4 text-slate-600 whitespace-nowrap">{lead.phone}</td>
+                    <td className="px-6 py-5">
+                      {lead.company || "-"}
+                    </td>
 
-                        {/* Company */}
-                        <td className="py-3.5 px-4 font-medium text-slate-700">{lead.company || "-"}</td>
+                    <td className="px-6 py-5 max-w-xs truncate">
+                      {lead.requirement}
+                    </td>
 
-                        {/* Requirement */}
-                        <td className="py-3.5 px-4 text-slate-600 max-w-xs truncate">{lead.requirement}</td>
+                    <td className="px-6 py-5">
+                      {new Date(
+                        lead.submitted_at || lead.created_at
+                      ).toLocaleDateString()}
+                    </td>
 
-                        {/* Date */}
-                        <td className="py-3.5 px-4 text-slate-400 whitespace-nowrap">
-                          {lead.submitted_at ? new Date(lead.submitted_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'May 28, 2025'}
-                        </td>
-
-                        {/* Status Mock Pill */}
-                        <td className="py-3.5 px-4 whitespace-nowrap">
-                          <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-blue-50 text-blue-600 border border-blue-100">
-                            New
-                          </span>
-                        </td>
-
-                        {/* Action Icons */}
-                        <td className="py-3.5 pl-4 pr-6 text-right whitespace-nowrap text-slate-400">
-                          <div className="inline-flex items-center gap-2">
-                            <button className="p-1 hover:text-slate-600 hover:bg-slate-100 rounded transition" title="View">
-                              <Eye size={15} />
-                            </button>
-                            <button className="p-1 hover:text-rose-600 hover:bg-rose-50 rounded transition" title="Delete">
-                              <Trash2 size={15} />
-                            </button>
-                          </div>
-                        </td>
-
-                      </tr>
-                    );
-                  })
-                ) : (
-                  <tr>
-                    <td colSpan={8} className="py-12 text-center text-slate-400">
-                      No leads found in the database.
+                    <td className="px-6 py-5">
+                      <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold">
+                        New
+                      </span>
                     </td>
                   </tr>
-                )}
+                ))}
               </tbody>
             </table>
           </div>
